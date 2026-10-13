@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>URDEVA // RADICAL CREATIVE STUDIO — FORM, FLUIDITY &amp; SPATIAL PROJECTION</title>
+  <meta name="description" content="Urdeva adalah studio kreatif desain radikal & abstrak. Eksplorasi murni tipografi kinetik, arsitektur visual non-linier, UI/UX interaktif spasial, dan seni generatif masa depan.">
+  <meta name="keywords" content="Urdeva Studio, radical design studio, abstract creative agency, experimental UI UX, generative art, kinetic typography, avant garde design">
+  <meta name="author" content="Urdeva Studio">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="URDEVA // RADICAL CREATIVE &amp; SPATIAL STUDIO">
+  <meta property="og:description" content="Merekayasa estetika radikal, interaksi berbobot gravitasi, dan arsitektur visual non-konvensional.">
+  <meta property="og:image" content="assets/images/hero.jpg">
+  <meta property="twitter:card" content="summary_large_image">
+
+  <!-- Fonts: Syne, Space Grotesk, Plus Jakarta Sans, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%2308080a'/><circle cx='50' cy='50' r='38' fill='none' stroke='%23f4f3f0' stroke-width='8'/><line x1='12' y1='12' x2='88' y2='88' stroke='%23f4f3f0' stroke-width='6'/></svg>">
+</head>
+<body class="mode-spatial">
+  <!-- FULLSCREEN GENERATIVE VECTOR & FLUID TOPOLOGY CANVAS -->
+  <canvas id="spatialCanvas" class="spatial-bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- EDITORIAL MATTE NOISE & ARCHITECTURAL CROSSHAIRS OVERLAY -->
+  <div class="noise-overlay" aria-hidden="true"></div>
+  <div class="crosshair-grid" aria-hidden="true">
+    <span class="ch-mark ch-top-left">+</span>
+    <span class="ch-mark ch-top-right">+</span>
+    <span class="ch-mark ch-bottom-left">+</span>
+    <span class="ch-mark ch-bottom-right">+</span>
+    <span class="ch-axis-x"></span>
+    <span class="ch-axis-y"></span>
+  </div>
+
+  <!-- RADICAL KINETIC MOUSE CURSOR -->
+  <div class="radical-cursor" id="radicalCursor" aria-hidden="true">
+    <div class="cursor-cross"></div>
+    <div class="cursor-coords-tag" id="cursorCoords">X:000 Y:000</div>
+  </div>
+
+  <!-- FLOATING FLOATING ARTIFACT PREVIEW CAPSULE (Kinetic List Hover) -->
+  <div class="artifact-capsule" id="artifactCapsule" aria-hidden="true">
+    <div class="capsule-inner">
+      <img src="assets/images/project-aurelia.jpg" alt="Preview" id="capsuleImg">
+      <div class="capsule-bar" id="capsuleTitle">CASE STUDY INSPECTION</div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION STREAM -->
+  <div class="toast-stream" id="toastStream" role="status" aria-live="polite"></div>
+
+  <!-- SPATIAL HUD TOP NAVIGATION -->
+  <header class="spatial-hud" id="spatialHud">
+    <div class="hud-rail left-rail">
+      <a href="#" class="radical-brand" id="radicalBrand">
+        <span class="brand-monolith">U</span>
+        <span class="brand-logotype">
+          <span class="type-main scramble-trig" data-target="URDEVA">URDEVA</span>
+          <span class="type-sub">// RADICAL LABS</span>
+        </span>
+      </a>
+      <div class="status-indicator-pill">
+        <span class="blink-square"></span>
+        <span>SPATIAL OS &bull; V.4.0</span>
+      </div>
+    </div>
+
+    <!-- Center Mode Switcher (Radical Dimension Switcher) -->
+    <nav class="hud-center-nav" aria-label="Navigasi Dimensi">
+      <button type="button" class="mode-nav-btn active" data-view="spatial" id="btnModeSpatial">
+        <span class="mode-num">01</span>
+        <span class="mode-label">SPATIAL UNIVERSE</span>
+      </button>
+      <button type="button" class="mode-nav-btn" data-view="archive" id="btnModeArchive">
+        <span class="mode-num">02</span>
+        <span class="mode-label">PROJECT MATRIX</span>
+      </button>
+      <button type="button" class="mode-nav-btn" data-view="composer" id="btnModeComposer">
+        <span class="mode-num">03</span>
+        <span class="mode-label">TOPOLOGY LAB</span>
+      </button>
+      <button type="button" class="mode-nav-btn" data-view="terminal" id="btnModeTerminal">
+        <span class="mode-num">04</span>
+        <span class="mode-label">BRIEF PROTOCOL</span>
+      </button>
+    </nav>
+
+    <div class="hud-rail right-rail">
+      <!-- Web Audio Sound Synthesizer Engine -->
+      <button class="synth-toggle" id="synthToggle" aria-label="Toggle Sound Synthesis" title="Aktifkan Sintesis Audio Kinetik">
+        <span class="synth-eq">
+          <span class="eq-col"></span>
+          <span class="eq-col"></span>
+          <span class="eq-col"></span>
+          <span class="eq-col"></span>
+        </span>
+        <span class="synth-text" id="synthStatusText">SYNTH: OFF</span>
+      </button>
+
+      <!-- Monochromatic Contrast Toggle -->
+      <button class="contrast-cycler" id="contrastCycler" title="Invert Monochromatic Polar (Ivory Paper / Pitch Black)">
+        <span class="contrast-icon">&#9680;</span>
+        <span class="contrast-label" id="contrastLabel">IVORY</span>
+      </button>
+
+      <!-- Call to Action -->
+      <a href="#terminalSection" class="btn-radical-init" id="quickInitBtn">
+        <span>KOLABORASI</span>
+        <span class="btn-arrow">&nearr;</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN INTERACTIVE EXPERIMENTAL WRAPPER -->
+  <main class="spatial-viewport" id="spatialViewport">
+
+    <!-- ====================================================================
+         SECTION 1: THE SPATIAL UNIVERSE (Radical Hero & Draggable Artifacts)
+         ==================================================================== -->
+    <section class="section-dimension" id="spatialSection">
+      <!-- Background Giant Kinetic Typography -->
+      <div class="kinetic-monument-wrap">
+        <div class="monument-row row-left">
+          <span class="huge-char">U</span>
+          <span class="huge-char">R</span>
+          <span class="huge-char">D</span>
+          <span class="huge-char">E</span>
+          <span class="huge-char">V</span>
+          <span class="huge-char">A</span>
+        </div>
+        <div class="monument-row row-right">
+          <span class="stroke-char">RADICAL</span>
+          <span class="solid-char">CRAFT</span>
+        </div>
+      </div>
+
+      <!-- Architectural Manifesto Layer -->
+      <div class="manifesto-card-layer">
+        <div class="manifesto-hud-card">
+          <div class="card-bar">
+            <span>[MANIFESTO // 2026]</span>
+            <span class="code-stamp">COORDINATE: JKT-021</span>
+          </div>
+          <h1 class="manifesto-headline">
+            KAMI MEMBEBASKAN DESAIN DARI <span class="invert-highlight">KEBIASAAN KONVENSIONAL.</span>
+          </h1>
+          <p class="manifesto-body">
+            Urdeva Studio beroperasi di irisan antara seni rupa radikal, arsitektur visual monokromatik, dan rekayasa digital berbobot gravitasi. Kami tidak membuat template; kami merancang preseden visual yang memicu diskusi dan mendominasi ingatan.
+          </p>
+          <div class="manifesto-cta-line">
+            <button type="button" class="pill-action-btn" id="scatterArtifactsBtn">
+              <span class="btn-glyph">&circlearrowright;</span>
+              <span>Acak Posisi Artefak Gravitasi</span>
+            </button>
+            <span class="drag-hint">&bull; TARIK &amp; LEMPAR KARTU ARTEFAK DENGAN MOUSE ANDA &bull;</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- INTERACTIVE DRAGGABLE & THROWABLE ARTIFACT CARDS (PHYSICS BASED) -->
+      <div class="physics-sandbox" id="physicsSandbox">
+        <!-- Artifact 1: Aurelia -->
+        <div class="draggable-artifact" id="art1" data-id="aurelia" style="left: 10%; top: 22%;">
+          <div class="art-header">
+            <span class="art-badge">CASE 01</span>
+            <span class="art-grip">:::</span>
+          </div>
+          <div class="art-img-box">
+            <img src="assets/images/project-aurelia.jpg" alt="Aurélia Paris" draggable="false">
+          </div>
+          <div class="art-caption">
+            <strong>Aurélia Paris</strong>
+            <small>Haute Fragrance &bull; Monogram</small>
+          </div>
+          <button type="button" class="art-inspect-btn">Inspeksi Artefak &rarr;</button>
+        </div>
+
+        <!-- Artifact 2: CryptoFlow -->
+        <div class="draggable-artifact" id="art2" data-id="cryptoflow" style="left: 64%; top: 16%;">
+          <div class="art-header">
+            <span class="art-badge">CASE 02</span>
+            <span class="art-grip">:::</span>
+          </div>
+          <div class="art-img-box">
+            <img src="assets/images/project-cryptoflow.jpg" alt="CryptoFlow Global" draggable="false">
+          </div>
+          <div class="art-caption">
+            <strong>CryptoFlow Global</strong>
+            <small>Spatial Fintech &bull; Mobile UI</small>
+          </div>
+          <button type="button" class="art-inspect-btn">Inspeksi Artefak &rarr;</button>
+        </div>
+
+        <!-- Artifact 3: Kinetic Wave -->
+        <div class="draggable-artifact" id="art3" data-id="kinetic" style="left: 22%; top: 62%;">
+          <div class="art-header">
+            <span class="art-badge">CASE 03</span>
+            <span class="art-grip">:::</span>
+          </div>
+          <div class="art-img-box">
+            <img src="assets/images/project-kinetic.jpg" alt="Kinetic Chroma" draggable="false">
+          </div>
+          <div class="art-caption">
+            <strong>Kinetic Chroma</strong>
+            <small>Generative 3D &bull; Wave Fluid</small>
+          </div>
+          <button type="button" class="art-inspect-btn">Inspeksi Artefak &rarr;</button>
+        </div>
+
+        <!-- Artifact 4: Spatial Audio -->
+        <div class="draggable-artifact" id="art4" data-id="spatial" style="left: 72%; top: 56%;">
+          <div class="art-header">
+            <span class="art-badge">CASE 04</span>
+            <span class="art-grip">:::</span>
+          </div>
+          <div class="art-img-box">
+            <img src="assets/images/project-spatial.jpg" alt="Monolith Spatial" draggable="false">
+          </div>
+          <div class="art-caption">
+            <strong>Monolith Spatial</strong>
+            <small>3D Product &bull; Acoustic CAD</small>
+          </div>
+          <button type="button" class="art-inspect-btn">Inspeksi Artefak &rarr;</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 2: ARCHIVE MATRIX (Dual Mode: Brutalist Bento & Kinetic Rail)
+         ==================================================================== -->
+    <section class="section-dimension" id="archiveSection">
+      <div class="container dimension-container">
+        <div class="dimension-header">
+          <div class="dh-left">
+            <span class="dim-tag">[INDEX // 02]</span>
+            <h2 class="dim-title">ARSIP KARYA &bull; STRUKTUR MATRIKS</h2>
+          </div>
+          <div class="dh-right">
+            <div class="archive-filter-strip">
+              <button type="button" class="af-chip active" data-filter="all">SEMUA (6)</button>
+              <button type="button" class="af-chip" data-filter="branding">BRANDING</button>
+              <button type="button" class="af-chip" data-filter="uiux">DIGITAL UI/UX</button>
+              <button type="button" class="af-chip" data-filter="3d">3D SPATIAL</button>
+              <button type="button" class="af-chip" data-filter="editorial">EDITORIAL</button>
+            </div>
+            <div class="matrix-toggle-wrap">
+              <button type="button" class="mt-btn active" id="btnViewCards" title="Mode Bento Grid">BENTO</button>
+              <button type="button" class="mt-btn" id="btnViewKinetic" title="Mode Kinetic Typography List">KINETIC LIST</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 1. BENTO ARCHIVE GRID -->
+        <div class="archive-bento-grid active" id="archiveBentoGrid">
+          <!-- Card 1 -->
+          <article class="bento-matrix-card card-span-2" data-category="branding" data-id="aurelia">
+            <div class="bmc-media">
+              <img src="assets/images/project-aurelia.jpg" alt="Aurélia Paris" loading="lazy">
+              <span class="bmc-tag">HAUTE BRANDING</span>
+            </div>
+            <div class="bmc-meta">
+              <div class="bmc-meta-header">
+                <span class="meta-client">Aurélia Haute Parfumerie (Paris)</span>
+                <span class="meta-year">2026</span>
+              </div>
+              <h3>Aurélia Paris — Identitas Visual &amp; Kemasan Monokromatik</h3>
+              <p>Membangun kemurnian visual quiet luxury dengan tipografi kustom Swiss, foil perak timbul, dan botol kaca hitam bertekstur matte.</p>
+              <div class="bmc-footer">
+                <span class="metric-highlight">+180% Pertumbuhan Q1</span>
+                <button type="button" class="read-case-btn">Buka Data Case Study &rarr;</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 2 -->
+          <article class="bento-matrix-card" data-category="uiux" data-id="cryptoflow">
+            <div class="bmc-media">
+              <img src="assets/images/project-cryptoflow.jpg" alt="CryptoFlow Global" loading="lazy">
+              <span class="bmc-tag">SPATIAL FINTECH</span>
+            </div>
+            <div class="bmc-meta">
+              <div class="bmc-meta-header">
+                <span class="meta-client">CryptoFlow Global</span>
+                <span class="meta-year">2026</span>
+              </div>
+              <h3>CryptoFlow — Antarmuka Trading Multi-Aset</h3>
+              <p>Desain platform trading terdesentralisasi dengan visualisasi data real-time dan design system berbasis token skala besar.</p>
+              <div class="bmc-footer">
+                <span class="metric-highlight">64% User Retention</span>
+                <button type="button" class="read-case-btn">Buka Data &rarr;</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 3 -->
+          <article class="bento-matrix-card" data-category="3d" data-id="kinetic">
+            <div class="bmc-media">
+              <img src="assets/images/project-kinetic.jpg" alt="Kinetic Chroma" loading="lazy">
+              <span class="bmc-tag">3D FLUID</span>
+            </div>
+            <div class="bmc-meta">
+              <div class="bmc-meta-header">
+                <span class="meta-client">Chroma Visual Lab</span>
+                <span class="meta-year">2025</span>
+              </div>
+              <h3>Kinetic Chroma — Tipografi Fluida Generatif</h3>
+              <p>Instalasi seni komputasional dan motion kinetik untuk pameran desain digital internasional di Tokyo.</p>
+              <div class="bmc-footer">
+                <span class="metric-highlight">1.2M Views</span>
+                <button type="button" class="read-case-btn">Buka Data &rarr;</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 4 -->
+          <article class="bento-matrix-card" data-category="3d" data-id="spatial">
+            <div class="bmc-media">
+              <img src="assets/images/project-spatial.jpg" alt="Monolith Spatial" loading="lazy">
+              <span class="bmc-tag">3D PRODUCT</span>
+            </div>
+            <div class="bmc-meta">
+              <div class="bmc-meta-header">
+                <span class="meta-client">Monolith Audio</span>
+                <span class="meta-year">2025</span>
+              </div>
+              <h3>Monolith Spatial — Visualisasi Akustik 360°</h3>
+              <p>Pemodelan presisi CAD to Mesh perangkat audio planar magnetik masa depan dengan tekstur serat karbon fotorealistis.</p>
+              <div class="bmc-footer">
+                <span class="metric-highlight">$2.4M Pre-Order</span>
+                <button type="button" class="read-case-btn">Buka Data &rarr;</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 5 -->
+          <article class="bento-matrix-card" data-category="editorial" data-id="architexture">
+            <div class="bmc-media">
+              <img src="assets/images/project-editorial.jpg" alt="Architexture Mag" loading="lazy">
+              <span class="bmc-tag">SWISS EDITORIAL</span>
+            </div>
+            <div class="bmc-meta">
+              <div class="bmc-meta-header">
+                <span class="meta-client">Architexture Biannual</span>
+                <span class="meta-year">2025</span>
+              </div>
+              <h3>Architexture Mag — Publikasi Arsitektur Modern</h3>
+              <p>Sistem tata letak modular asimetris berstandar Swiss grid dan kurasi monokromatis cetak kertas gading 160gsm.</p>
+              <div class="bmc-footer">
+                <span class="metric-highlight">Sold Out 14 Hari</span>
+                <button type="button" class="read-case-btn">Buka Data &rarr;</button>
+              </div>
+            </div>
+          </article>
+
+          <!-- Card 6 -->
+          <article class="bento-matrix-card" data-category="branding" data-id="studiospace">
+            <div class="bmc-media">
+              <img src="assets/images/studio-space.jpg" alt="Nexus Collective" loading="lazy">
+              <span class="bmc-tag">ENVIRONMENTAL REBRAND</span>
+            </div>
+            <div class="bmc-meta">
+              <div class="bmc-meta-header">
+                <span class="meta-client">Nexus Collective</span>
+                <span class="meta-year">2026</span>
+              </div>
+              <h3>Nexus Collective — Ekosistem Kreatif Arsitektural</h3>
+              <p>Penyegaran total identitas visual co-working space brutalist kontemporer dan sistem wayfinding laser-cut.</p>
+              <div class="bmc-footer">
+                <span class="metric-highlight">95% Okupansi Studio</span>
+                <button type="button" class="read-case-btn">Buka Data &rarr;</button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- 2. KINETIC EDITORIAL LIST VIEW -->
+        <div class="archive-kinetic-list" id="archiveKineticList">
+          <ul class="radical-list-items">
+            <li class="radical-list-row" data-id="aurelia" data-img="assets/images/project-aurelia.jpg" data-title="Aurélia Paris — Luxury Haute Fragrance">
+              <span class="rl-col num">01</span>
+              <span class="rl-col title">Aurélia Paris</span>
+              <span class="rl-col spec">Brand Identity &bull; Tactile Packaging</span>
+              <span class="rl-col year">2026</span>
+              <span class="rl-col arrow">&nearr;</span>
+            </li>
+            <li class="radical-list-row" data-id="cryptoflow" data-img="assets/images/project-cryptoflow.jpg" data-title="CryptoFlow Global — Modern Multi-Asset Trading">
+              <span class="rl-col num">02</span>
+              <span class="rl-col title">CryptoFlow Global</span>
+              <span class="rl-col spec">Spatial UI/UX &bull; Mobile Platform</span>
+              <span class="rl-col year">2026</span>
+              <span class="rl-col arrow">&nearr;</span>
+            </li>
+            <li class="radical-list-row" data-id="kinetic" data-img="assets/images/project-kinetic.jpg" data-title="Kinetic Chroma — Generative Fluid Typo">
+              <span class="rl-col num">03</span>
+              <span class="rl-col title">Kinetic Chroma</span>
+              <span class="rl-col spec">3D Motion Direction &bull; Digital Art</span>
+              <span class="rl-col year">2025</span>
+              <span class="rl-col arrow">&nearr;</span>
+            </li>
+            <li class="radical-list-row" data-id="spatial" data-img="assets/images/project-spatial.jpg" data-title="Monolith Spatial — High-End Acoustic Hardware">
+              <span class="rl-col num">04</span>
+              <span class="rl-col title">Monolith Spatial</span>
+              <span class="rl-col spec">3D Product Render &bull; WebGL Asset</span>
+              <span class="rl-col year">2025</span>
+              <span class="rl-col arrow">&nearr;</span>
+            </li>
+            <li class="radical-list-row" data-id="architexture" data-img="assets/images/project-editorial.jpg" data-title="Architexture Mag — Swiss Editorial Layout">
+              <span class="rl-col num">05</span>
+              <span class="rl-col title">Architexture Mag</span>
+              <span class="rl-col spec">Swiss Grid Publication &bull; Typo</span>
+              <span class="rl-col year">2025</span>
+              <span class="rl-col arrow">&nearr;</span>
+            </li>
+            <li class="radical-list-row" data-id="studiospace" data-img="assets/images/studio-space.jpg" data-title="Nexus Collective — Architectural Rebrand">
+              <span class="rl-col num">06</span>
+              <span class="rl-col title">Nexus Collective</span>
+              <span class="rl-col spec">Comprehensive Environmental Rebrand</span>
+              <span class="rl-col year">2026</span>
+              <span class="rl-col arrow">&nearr;</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 3: TOPOLOGY & GENERATIVE LAB (Interactive Visual Instrument)
+         ==================================================================== -->
+    <section class="section-dimension" id="composerSection">
+      <div class="container dimension-container">
+        <div class="dimension-header">
+          <div class="dh-left">
+            <span class="dim-tag">[EXPERIMENT // 03]</span>
+            <h2 class="dim-title">TOPOLOGI GENERATIF &bull; INSTRUMEN LAB</h2>
+          </div>
+          <div class="dh-right">
+            <span class="hud-mono">INSTRUMENT VER: 4.8.2 // WAVE SYNTHESIS</span>
+          </div>
+        </div>
+
+        <div class="composer-interface">
+          <!-- Canvas Instrument Screen -->
+          <div class="instrument-screen-wrap">
+            <canvas id="composerCanvas" class="composer-canvas" width="900" height="460"></canvas>
+            <div class="screen-cross-hud">
+              <span class="cross-tag top-l">+ TOPOLOGICAL GRID</span>
+              <span class="cross-tag top-r">LIVE VORTEX SIM</span>
+              <span class="cross-tag bot-l">GRAVITY: ACTIVE</span>
+              <span class="cross-tag bot-r" id="activeNodeStat">NODES: 180</span>
+            </div>
+            <div class="screen-interact-callout">
+              <span>TARIK KURSOR PADA KANVAS UNTUK MENGUKIR GELOMBANG TOPOLOGI</span>
+            </div>
+          </div>
+
+          <!-- Instrument Modulation Controls -->
+          <div class="instrument-deck">
+            <div class="deck-col">
+              <label class="deck-label">MODALITAS FORM:</span>
+              <div class="deck-pill-group" id="deckPresets">
+                <button type="button" class="deck-pill active" data-mode="topography">KONTUR TOPOGRAFI</button>
+                <button type="button" class="deck-pill" data-mode="gravitational">VORTEX GRAVITASI</button>
+                <button type="button" class="deck-pill" data-mode="quantum">KINETIC FLOCKING</button>
+                <button type="button" class="deck-pill" data-mode="architect">BLUEPRINT VECTOR</button>
+              </div>
+            </div>
+
+            <div class="deck-sliders-row">
+              <div class="deck-slider-item">
+                <div class="slider-meta">
+                  <span>Frekuensi Gelombang</span>
+                  <strong id="valFreq">1.6 Hz</strong>
+                </div>
+                <input type="range" id="sliderFreq" min="0.4" max="3.6" step="0.1" value="1.6" class="radical-range">
+              </div>
+
+              <div class="deck-slider-item">
+                <div class="slider-meta">
+                  <span>Jumlah Node Partikel</span>
+                  <strong id="valNodes">180</strong>
+                </div>
+                <input type="range" id="sliderNodes" min="80" max="320" step="10" value="180" class="radical-range">
+              </div>
+
+              <div class="deck-slider-item">
+                <div class="slider-meta">
+                  <span>Ketegangan Medan Elastis</span>
+                  <strong id="valTension">68%</strong>
+                </div>
+                <input type="range" id="sliderTension" min="20" max="100" step="2" value="68" class="radical-range">
+              </div>
+            </div>
+
+            <div class="deck-actions-row">
+              <button type="button" class="deck-reset-btn" id="btnResetComposer">Reset Modulasi</button>
+              <a href="#terminalSection" class="deck-cta-btn">
+                <span>Rancang Interaksi Selevel Ini untuk Brand Anda &rarr;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 4: SCOPE ESTIMATOR & INQUIRY PROTOCOL
+         ==================================================================== -->
+    <section class="section-dimension" id="terminalSection">
+      <div class="container dimension-container">
+        <div class="dimension-header">
+          <div class="dh-left">
+            <span class="dim-tag">[DISPATCH // 04]</span>
+            <h2 class="dim-title">PROTOKOL DISKUSI &amp; ESTIMASI INVESTASI</h2>
+          </div>
+          <p class="section-subtitle">
+            Transparansi penuh tanpa birokrasi tersembunyi. Tentukan skala kebutuhan Anda untuk menghitung alokasi sumber daya studio secara langsung.
+          </p>
+        </div>
+
+        <div class="radical-terminal-grid">
+          <!-- Left Console: Interactive Scope Calculator -->
+          <div class="terminal-calc-console">
+            <div class="console-box-header">
+              <span class="terminal-prompt">&gt; INITIATE_CALCULATOR_PROTOCOL</span>
+            </div>
+
+            <div class="terminal-calc-body">
+              <div class="calc-step-block">
+                <label class="step-label">01 // PILIH DISIPLIN UTAMA:</label>
+                <div class="radical-chip-options" id="radicalServiceOptions">
+                  <button type="button" class="r-chip active" data-cost="20000000" data-time="4-5 Minggu" data-name="Brand Identity &amp; Visual Architecture">Brand Identity &amp; Architecture</button>
+                  <button type="button" class="r-chip" data-cost="28000000" data-time="5-7 Minggu" data-name="UI/UX Digital Product &amp; Design System">UI/UX Spatial &amp; Product</button>
+                  <button type="button" class="r-chip" data-cost="18000000" data-time="3-4 Minggu" data-name="3D Visual &amp; Spatial Motion">3D Spatial &amp; Kinetic Motion</button>
+                  <button type="button" class="r-chip" data-cost="45000000" data-time="8-10 Minggu" data-name="Full Dimensional Studio Rebrand">Full Holistic Rebrand (All-in)</button>
+                </div>
+              </div>
+
+              <div class="calc-step-block">
+                <label class="step-label">02 // SKALA EKOSISTEM BISNIS:</label>
+                <div class="radical-chip-options" id="radicalScaleOptions">
+                  <button type="button" class="r-chip active" data-mul="1.0" data-name="Emerging Brand / Startup">Emerging Startup</button>
+                  <button type="button" class="r-chip" data-mul="1.35" data-name="Growing Brand (Scale-up)">Growing Scale-Up</button>
+                  <button type="button" class="r-chip" data-mul="1.8" data-name="Corporate Enterprise">Enterprise Institution</button>
+                </div>
+              </div>
+
+              <div class="calc-step-block">
+                <label class="step-label">03 // KEBUTUHAN MODULAR EKSTRA:</label>
+                <div class="radical-checkbox-options">
+                  <label class="r-chk-label">
+                    <input type="checkbox" class="r-addon" value="6000000" data-name="Scalable Token Design System" checked>
+                    <span class="r-chk-box"></span>
+                    <span>Design System Figma Skalabel (+Rp 6.000.000)</span>
+                  </label>
+                  <label class="r-chk-label">
+                    <input type="checkbox" class="r-addon" value="7500000" data-name="Micro-Interactions &amp; WebGL Asset">
+                    <span class="r-chk-box"></span>
+                    <span>Aset Mikro Lottie &amp; WebGL (+Rp 7.500.000)</span>
+                  </label>
+                  <label class="r-chk-label">
+                    <input type="checkbox" class="r-addon" value="5000000" data-name="Hardcover Monograph Brandbook &amp; 3D">
+                    <span class="r-chk-box"></span>
+                    <span>Buku Brandbook Monograf &amp; Mockup 3D (+Rp 5.000.000)</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Output Box -->
+              <div class="terminal-result-summary">
+                <div class="result-top-line">
+                  <span class="r-sub">ESTIMASI INVESTASI AWAL</span>
+                  <span class="r-time-badge" id="calcTimeDisplay">WAKTU: 4-5 MINGGU</span>
+                </div>
+                <div class="r-total-price" id="calcPriceDisplay">Rp 26.000.000</div>
+                <div class="r-spec-list" id="calcSummaryList">
+                  <div>&bull; Brand Identity &amp; Architecture</div>
+                  <div>&bull; Emerging Startup</div>
+                  <div>&bull; Design System Figma Skalabel</div>
+                </div>
+                <button type="button" class="btn-apply-estimate" id="btnApplyEstimate">
+                  <span>TRANSFER ESTIMASI INI KE FORMULIR BRIEF &rarr;</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Console: Radical Inquiry Form -->
+          <div class="terminal-inquiry-form-wrap">
+            <div class="console-box-header">
+              <span class="terminal-prompt">&gt; DISPATCH_PROJECT_BRIEF</span>
+            </div>
+
+            <form class="radical-form" id="radicalInquiryForm" novalidate>
+              <div class="r-form-row">
+                <div class="r-field">
+                  <label for="clientName">NAMA LENGKAP <span class="req">*</span></label>
+                  <input type="text" id="clientName" name="name" class="r-input" placeholder="Misal: Nicholas Wijaya" required>
+                  <span class="error-msg" id="nameError"></span>
+                </div>
+                <div class="r-field">
+                  <label for="clientEmail">EMAIL KORESPONDENSI <span class="req">*</span></label>
+                  <input type="email" id="clientEmail" name="email" class="r-input" placeholder="nama@perusahaan.com" required>
+                  <span class="error-msg" id="emailError"></span>
+                </div>
+              </div>
+
+              <div class="r-form-row">
+                <div class="r-field">
+                  <label for="clientBrand">NAMA ENTITAS / BRAND</label>
+                  <input type="text" id="clientBrand" name="brand" class="r-input" placeholder="Misal: Lumina Architectural Lab">
+                </div>
+                <div class="r-field">
+                  <label for="clientWhatsapp">NOMOR WHATSAPP</label>
+                  <input type="tel" id="clientWhatsapp" name="whatsapp" class="r-input" placeholder="+62 812-xxxx-xxxx">
+                </div>
+              </div>
+
+              <div class="r-field">
+                <label for="projectBrief">DESKRIPSI TANTANGAN &amp; AMBISI VISUAL <span class="req">*</span></label>
+                <textarea id="projectBrief" name="brief" rows="4" class="r-textarea" placeholder="Jelaskan mengenai filosofi brand, audiens sasaran, serta arah estetika yang Anda dambakan..." required></textarea>
+                <span class="error-msg" id="briefError"></span>
+              </div>
+
+              <button type="submit" class="btn-radical-submit" id="submitBriefBtn">
+                <span class="btn-text">KIRIM BRIEF PROYEK SEKARANG</span>
+                <span class="btn-loading" aria-hidden="true"></span>
+                <span class="btn-glyph">&nearr;</span>
+              </button>
+
+              <div class="form-legal-note">
+                <code>[SECURITY // NDA PROTECTED 100% IP ASSIGNMENT UPON COMPLETION]</code>
+              </div>
+            </form>
+
+            <div class="quick-direct-contacts">
+              <div class="q-item">
+                <span class="q-label">EMAIL DIRECT:</span>
+                <a href="mailto:hello@urdeva.studio" class="q-val">hello@urdeva.studio</a>
+              </div>
+              <div class="q-item">
+                <span class="q-label">WHATSAPP DISPATCH:</span>
+                <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" class="q-val">+62 812-3456-7890</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- CASE STUDY LIGHTBOX INSPECTOR -->
+  <div class="modal-backdrop" id="caseStudyModal" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-container">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="Tutup Inspeksi">&times;</button>
+      <div class="modal-body" id="modalBody">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- RADICAL MONUMENTAL FOOTER -->
+  <footer class="radical-footer">
+    <div class="container footer-content">
+      <div class="footer-huge-mark">URDEVA.</div>
+      <div class="footer-meta-row">
+        <div class="f-meta-col">
+          <span class="f-col-title">LOKASI STUDIO</span>
+          <p>Jakarta Selatan &bull; Bandung Creative District &bull; Global Remote Operation</p>
+        </div>
+        <div class="f-meta-col">
+          <span class="f-col-title">JARINGAN SOSIAL</span>
+          <div class="f-links-row">
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+            <a href="https://behance.net" target="_blank" rel="noopener noreferrer">BEHANCE</a>
+            <a href="https://dribbble.com" target="_blank" rel="noopener noreferrer">DRIBBBLE</a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">LINKEDIN</a>
+          </div>
+        </div>
+        <div class="f-meta-col">
+          <span class="f-col-title">HAK CIPTA &amp; ARSITEKTUR</span>
+          <p>&copy; 2026 URDEVA STUDIO. RADICAL SPATIAL MANIFESTO.</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
